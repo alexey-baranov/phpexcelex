@@ -62,7 +62,7 @@ class PDO implements \PHPExcel_Reader_IReader{
                         $sheet->setCellValueByColumnAndRow($EACH_COLUMN, $EACH_ROW, $eachRowAsArray[$EACH_COLUMN]); //$eachColumnMeta
                         break;
                 }
-                $EACH_ROW++;
+                $EACH_ROW++; //sdafsadfasd
             }
         }
         return $excel;
