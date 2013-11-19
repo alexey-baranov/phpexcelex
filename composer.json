@@ -1,0 +1,20 @@
+{
+    "name": "alexey_baranov/phpexcelex",
+    "description": "PHPExcel addons",
+    "authors": [
+        {
+            "name": "Alexey Baranov",
+            "email": "alexey_baranov@inbox.ru"
+        }
+    ],
+    "require": {
+        "apache/log4php": "2.*",
+        "PHPUnit/PHPUnit": "3.7.*",
+        "codeplex/phpexcel": "1.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "PHPExcelEx": "lib/"
+        }
+    }
+}

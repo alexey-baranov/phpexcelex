@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+# ../vendor/bin/phpunit --tap .
+
+if [ "x$1" = "x" ] ; then
+    ../vendor/bin/phpunit --tap .
+else
+    ../vendor/bin/phpunit --tap "$1"
+fi
