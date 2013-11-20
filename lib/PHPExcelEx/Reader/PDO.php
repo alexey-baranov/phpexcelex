@@ -32,7 +32,7 @@ class PDO implements \PHPExcel_Reader_IReader{
      * @return PHPExcel
      */
     public function load($source, $excel= null) {
-    // Initialisations
+        /* @var $source \Doctrine\DBAL\Statement */
         if ($excel) {
             $sheet= $excel->createSheet();
         }
@@ -49,21 +49,21 @@ class PDO implements \PHPExcel_Reader_IReader{
         
         //filling data
         $EACH_ROW=2;
-        while($eachRowAsArray=$source->fetch()) {
+        while($eachRowAsArray=$source->fetch(\PDO::FETCH_NUM)) {
             for($EACH_COLUMN=0; $EACH_COLUMN<$source->columnCount(); $EACH_COLUMN++) {
                 $eachColumnMeta= $source->getColumnMeta($EACH_COLUMN);
                 switch($eachColumnMeta['native_type']){
                     case 'timestampt':
                     case 'timestamptz':
-                        $sheet->setCellValueByColumnAndRow($EACH_COLUMN, $EACH_ROW, $eachRowAsArray[$EACH_COLUMN]); //$eachColumnMeta
-                        $cell->setValue(DateEx::russian($data));
+                        $eachColumnValue= new \DateTime($eachRowAsArray[$EACH_COLUMN]);
+                        $sheet->setCellValueByColumnAndRow($EACH_COLUMN, $EACH_ROW, $eachColumnValue->format("d.m.Y H:i"));
                         break;
                     default:
-                        $sheet->setCellValueByColumnAndRow($EACH_COLUMN, $EACH_ROW, $eachRowAsArray[$EACH_COLUMN]); //$eachColumnMeta
+                        $sheet->setCellValueByColumnAndRow($EACH_COLUMN, $EACH_ROW, $eachRowAsArray[$EACH_COLUMN]);
                         break;
                 }
-                $EACH_ROW++;
             }
+            $EACH_ROW++;
         }
         return $excel;
     }
