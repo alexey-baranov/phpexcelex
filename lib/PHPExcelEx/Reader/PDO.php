@@ -63,7 +63,7 @@ class PDO implements \PHPExcel_Reader_IReader{
                         break;
                 }
             }
-            $EACH_ROW++;
+            $EACH_ROW++; //s
         }
         return $excel;
     }
