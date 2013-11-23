@@ -9,8 +9,10 @@
     ],
     "require": {
         "apache/log4php": "2.*",
-        "PHPUnit/PHPUnit": "3.7.*",
         "codeplex/phpexcel": "1.*"
+    },
+    "require-dev":{
+        "PHPUnit/PHPUnit": "3.7.*"
     },
     "autoload": {
         "psr-0": {
