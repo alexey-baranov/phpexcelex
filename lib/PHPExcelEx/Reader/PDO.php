@@ -45,7 +45,23 @@ class PDO implements \PHPExcel_Reader_IReader{
         for($EACH_COLUMN=0; $EACH_COLUMN<$source->columnCount(); $EACH_COLUMN++) {
             $eachColumnMeta= $source->getColumnMeta($EACH_COLUMN);
             $sheet->setCellValueByColumnAndRow($EACH_COLUMN, 1, $eachColumnMeta['name']);
+            
+            switch ($eachColumnMeta['native_type']){
+                case 'blob':
+                case 'text':
+                    $sheet->getColumnDimensionByColumn($EACH_COLUMN)->setWidth(50);
+                    break;
+                case 'timestampt':
+                case 'timestamptz':
+                case 'datetime':
+                case 'timestamp':
+                    $sheet->getColumnDimensionByColumn($EACH_COLUMN)->setWidth(16);
+                    break;
+            }
         }
+        
+        $prevValueBinder= \PHPExcel_Cell::getValueBinder();
+        \PHPExcel_Cell::setValueBinder(new \PHPExcel_Cell_AdvancedValueBinder());
         
         //filling data
         $EACH_ROW=2;
@@ -55,8 +71,12 @@ class PDO implements \PHPExcel_Reader_IReader{
                 switch($eachColumnMeta['native_type']){
                     case 'timestampt':
                     case 'timestamptz':
+                    case 'datetime':
+                    case 'timestamp':
                         $eachColumnValue= new \DateTime($eachRowAsArray[$EACH_COLUMN]);
                         $sheet->setCellValueByColumnAndRow($EACH_COLUMN, $EACH_ROW, $eachColumnValue->format("d.m.Y H:i"));
+                        $sheet->getStyleByColumnAndRow($EACH_COLUMN, $EACH_ROW)->getNumberFormat()->setFormatCode('dd.mm.yyyy hh:mm');
+                        
                         break;
                     default:
                         $sheet->setCellValueByColumnAndRow($EACH_COLUMN, $EACH_ROW, $eachRowAsArray[$EACH_COLUMN]);
@@ -65,6 +85,12 @@ class PDO implements \PHPExcel_Reader_IReader{
             }
             $EACH_ROW++; //s
         }
+        
+        
+        \PHPExcel_Cell::setValueBinder($prevValueBinder);
+        
+        $excel->getProperties()->setCreator("Хелпдеск ООО \"Теле-плюс\"");
+        
         return $excel;
     }
 }
