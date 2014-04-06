@@ -6,10 +6,13 @@ namespace PHPExcelEx\Reader;
  */
 class PDOTest extends \PHPUnit_Framework_TestCase
 {
-    const PDO_DSN= "pgsql:host=10.0.14.14 port=5432 dbname=request2";
-    const PDO_USER= "pgsql";
-    const PDO_PASSWORD= "baranov";
-    
+//    const PDO_DSN= "pgsql:host=10.0.14.14 port=5432 dbname=request2";
+//    const PDO_USER= "pgsql";
+//    const PDO_PASSWORD= "baranov";
+    const PDO_DSN= "pgsql:host=217.114.191.86 port=5432 dbname=request3";
+    const PDO_USER= "postgres";
+    const PDO_PASSWORD= "qwerty123!;";
+
     /**
      *
      * @var \PDO
@@ -34,8 +37,8 @@ class PDOTest extends \PHPUnit_Framework_TestCase
     {
         $this->_pdo= new \PDO(self::PDO_DSN,self::PDO_USER,self::PDO_PASSWORD);
         $this->_pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        $this->_statement= $this->_pdo->query("select id, typee from objectt0 limit 10");
-        
+
+        $this->_statement= $this->_pdo->query("select id, typee from Node limit 10");
         $this->object = new PDO;
     }
 
